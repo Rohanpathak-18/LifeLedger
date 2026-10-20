@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" fill="none">
+  <defs>
+    <linearGradient id="room" x1="0" y1="0" x2="1200" y2="900" gradientUnits="userSpaceOnUse"><stop stop-color="#e7e2d8"/><stop offset="1" stop-color="#b6a894"/></linearGradient>
+    <linearGradient id="light" x1="180" y1="100" x2="582" y2="502" gradientUnits="userSpaceOnUse"><stop stop-color="#fffdf6"/><stop offset="1" stop-color="#ddd4c4"/></linearGradient>
+  </defs>
+  <path fill="url(#room)" d="M0 0h1200v900H0z"/>
+  <path d="M0 0h1200v655H0z" fill="#e9e4da"/>
+  <path d="M774 0h426v648H774z" fill="#a99a83"/>
+  <path d="M817 44h335v528H817z" fill="#d8d1c3"/>
+  <path d="M846 73h278v468H846z" fill="url(#light)"/>
+  <path d="M984 73v468m-138-235h278" stroke="#b9ad9b" stroke-width="12"/>
+  <path d="M0 654h1200v246H0z" fill="#9a8974"/>
+  <path d="m0 686 566-32 634 30v216H0V686Z" fill="#b8a991"/>
+  <ellipse cx="552" cy="771" rx="330" ry="65" fill="#776954" opacity=".23"/>
+  <path d="M210 483c0-54 43-97 97-97h326c54 0 97 43 97 97v120H210V483Z" fill="#544b40"/>
+  <path d="M237 481c0-36 29-65 65-65h334c36 0 65 29 65 65v104H237V481Z" fill="#b7aa96"/>
+  <path d="M209 574h528v112H209z" fill="#736657"/>
+  <path d="M244 664v93m457-93v93" stroke="#37342f" stroke-width="22" stroke-linecap="round"/>
+  <path d="M275 455c0-31 25-56 56-56h89v117H275V455Zm222-56h85c31 0 56 25 56 56v61H497V399Z" fill="#d5cbbb"/>
+  <path d="m102 628 108-206 17 7-65 226h-51l-9-27Z" fill="#403b33"/>
+  <path d="M92 422c24-62 75-100 127-105-3 59-48 103-127 105Zm36 42c-2-66 26-118 70-143 18 59-6 110-70 143Zm-8 26c-49-44-68-97-54-147 55 31 74 82 54 147Z" fill="#68705b"/>
+  <path d="M833 601h191v17H833z" fill="#635847"/>
+  <path d="M873 500h111l-12 101h-88l-11-101Z" fill="#b79d71"/>
+  <path d="M927 499c-20-51 5-82 28-113m-26 115c-8-48-33-64-55-78m56 54c18-37 43-46 67-49" stroke="#59644f" stroke-width="9" stroke-linecap="round"/>
+  <path d="M899 441c-4-24 6-41 25-53 6 23-4 42-25 53Zm53-42c8-22 24-32 47-31-7 22-23 32-47 31Zm-77-8c-22-3-35-17-39-40 23 2 36 15 39 40Z" fill="#68705b"/>
+</svg>

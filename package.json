@@ -1,0 +1,27 @@
+{
+  "name": "lifeledger",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "dev": "concurrently -n server,client -c yellow,white \"npm run dev -w server\" \"npm run dev -w client\"",
+    "dev:client": "npm run dev -w client",
+    "dev:server": "npm run dev -w server",
+    "build": "npm run build -w client",
+    "lint": "npm run lint -w client && npm run lint -w server",
+    "format": "prettier --write ."
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "eslint": "^9.19.0",
+    "prettier": "^3.5.0",
+    "globals": "^15.14.0",
+    "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
+    "@eslint/js": "^9.19.0"
+  }
+}
