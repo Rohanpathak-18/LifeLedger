@@ -3243,7 +3243,8 @@ html[data-theme='dark'] .asset-history-panel .recharts-cartesian-grid line { str
   }
 
   .app-navigation-bar .notification-button,
-  .app-navigation-bar .app-theme-button {
+  .app-navigation-bar .app-theme-button,
+  .app-navigation-bar .app-profile-button {
     display: grid !important;
     width: 34px;
     height: 34px;
@@ -3294,7 +3295,8 @@ html[data-theme='dark'] .asset-history-panel .recharts-cartesian-grid line { str
 
 @media (max-width: 600px) {
   html[data-theme='dark'] .app-navigation-bar .notification-button,
-  html[data-theme='dark'] .app-navigation-bar .app-theme-button {
+  html[data-theme='dark'] .app-navigation-bar .app-theme-button,
+  html[data-theme='dark'] .app-navigation-bar .app-profile-button {
     border-color: #625c4f;
     background: rgb(36 35 31 / 78%);
     color: #eeeae0;

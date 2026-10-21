@@ -38,6 +38,15 @@ button {
 .app-shell {
   min-height: 100vh;
 }
+.session-loading {
+  display: grid;
+  min-height: 100vh;
+  place-content: center;
+  padding: 24px;
+  color: #625f56;
+  font-size: 12px;
+  text-align: center;
+}
 .sidebar {
   width: 248px;
   background: #252521;
@@ -48,6 +57,9 @@ button {
   display: flex;
   flex-direction: column;
   z-index: 5;
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #555247 #252521;
 }
 .brand {
   height: 53px;
@@ -918,7 +930,8 @@ p {
 
 .app-nav-actions .app-theme-button,
 .app-nav-actions .app-signout-button,
-.app-nav-actions .notification-button {
+.app-nav-actions .notification-button,
+.app-nav-actions .app-profile-button {
   width: 32px;
   height: 32px;
   border: 1px solid #e6e3da;
@@ -943,7 +956,8 @@ html[data-theme='dark'] .app-nav-link {
 
 html[data-theme='dark'] .app-nav-actions .app-theme-button,
 html[data-theme='dark'] .app-nav-actions .app-signout-button,
-html[data-theme='dark'] .app-nav-actions .notification-button {
+html[data-theme='dark'] .app-nav-actions .notification-button,
+html[data-theme='dark'] .app-nav-actions .app-profile-button {
   border-color: #48453d;
   color: #ddd7ca;
 }

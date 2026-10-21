@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Bell, LogOut, MoreHorizontal, Moon, Search, Sun } from 'lucide-react';
+import { Bell, LogOut, MoreHorizontal, Moon, Search, Sun, UserRound } from 'lucide-react';
 import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../app/providers.jsx';
 import { notificationService } from '../../features/notifications/notification.service.js';
@@ -105,6 +105,14 @@ export default function Topbar({ onMenu }) {
               {unreadCount > 9 ? '9+' : unreadCount}
             </i>
           )}
+        </Link>
+        <Link
+          to="/profile"
+          className="icon-button app-profile-button"
+          aria-label="Your profile"
+          title="Your profile"
+        >
+          <UserRound size={17} />
         </Link>
         <button
           className="icon-button app-theme-button"

@@ -15,6 +15,7 @@ import {
   History,
   ChartNoAxesColumnIncreasing,
   UsersRound,
+  UserRound,
 } from 'lucide-react';
 
 const links = [
@@ -27,6 +28,7 @@ const links = [
   { label: 'Asset values', to: '/assets', icon: ChartNoAxesColumnIncreasing },
   { label: 'Family ledger', to: '/family', icon: UsersRound },
   { label: 'Notifications', to: '/notifications', icon: Bell },
+  { label: 'Profile & account', to: '/profile', icon: UserRound },
 ];
 
 export default function Sidebar({ open, onClose }) {

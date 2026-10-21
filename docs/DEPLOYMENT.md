@@ -8,7 +8,11 @@ This repository includes `render.yaml` for the API web service. It runs from
 the `server` workspace with `npm install` and `npm start`, and Render generates
 the production `JWT_ACCESS_SECRET`. When creating or syncing the Blueprint,
 provide `MONGODB_URI` and `CLIENT_URL` in the Render Dashboard. `CLIENT_URL`
-must be the deployed frontend's origin (scheme and host only). The MongoDB
+must be the deployed frontend's origin (scheme and host only). The Blueprint
+uses a secure `SameSite=None` refresh cookie so browsers can restore sessions
+when the frontend and API are deployed on different sites. For an existing
+Render service not managed by this Blueprint, set `COOKIE_SECURE=true` and
+`COOKIE_SAME_SITE=none` in its Environment settings. The MongoDB
 Atlas network access list must allow outbound connections from the Render
 service. Missing production settings now stop startup with a field-specific
 configuration error rather than leaving the API half configured.

@@ -16,6 +16,6 @@ services:
       - key: CLIENT_URL
         sync: false
       - key: COOKIE_SECURE
-        value: true
+        value: "true"
       - key: COOKIE_SAME_SITE
-        value: lax
+        value: "none"

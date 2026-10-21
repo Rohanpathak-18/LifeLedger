@@ -19,13 +19,27 @@ const DocumentsPage = lazy(() => import('../features/documents/pages/DocumentsPa
 const AssetsPage = lazy(() => import('../features/assets/AssetsPage.jsx'));
 
 export default function App() {
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return (
+      <main className="session-loading" role="status" aria-live="polite">
+        Restoring your LifeLedger session…
+      </main>
+    );
+  }
 
   return (
     <Routes>
       <Route path="/" element={<LandingPage />} />
-      <Route path="/login" element={<AuthPage mode="login" />} />
-      <Route path="/register" element={<AuthPage mode="register" />} />
+      <Route
+        path="/login"
+        element={user ? <Navigate to="/dashboard" replace /> : <AuthPage mode="login" />}
+      />
+      <Route
+        path="/register"
+        element={user ? <Navigate to="/dashboard" replace /> : <AuthPage mode="register" />}
+      />
       <Route element={user ? <AppLayout /> : <Navigate to="/login" replace />}>
         <Route path="/dashboard" element={<DashboardPage />} />
         <Route path="/products" element={<CollectionPage />} />
