@@ -46,6 +46,25 @@ const schema = z
       });
     }
 
+    if (value.NODE_ENV === 'production' && !value.MONGODB_URI.trim()) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['MONGODB_URI'],
+        message: 'Set the production MongoDB connection string',
+      });
+    }
+
+    if (
+      value.NODE_ENV === 'production' &&
+      value.CLIENT_URL.startsWith('http://localhost')
+    ) {
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ['CLIENT_URL'],
+        message: 'Set CLIENT_URL to the deployed frontend origin',
+      });
+    }
+
     if (value.COOKIE_SAME_SITE === 'none' && !value.COOKIE_SECURE) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
