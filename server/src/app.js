@@ -4,6 +4,9 @@ import express from 'express';
 import helmet from 'helmet';
 import pinoHttp from 'pino-http';
 import mongoose from 'mongoose';
+import { existsSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { env } from './config/env.js';
 import { logger } from './config/logger.js';
 import { errorHandler, notFound } from './middleware/errorHandler.js';
@@ -51,6 +54,22 @@ app.use('/api/v1/contact', contactRoutes);
 app.use('/api/v1/timeline', timelineRoutes);
 app.use('/api/v1/assets', assetRoutes);
 app.use('/api/v1/shares', shareRoutes);
+app.use('/api', notFound);
+
+// Serve the React app from the API service in production. This gives the
+// browser one origin for pages and authenticated API calls, so refresh
+// sessions do not depend on third-party cookie support.
+const clientBuildPath = resolve(
+  dirname(fileURLToPath(import.meta.url)),
+  '../../client/dist',
+);
+if (existsSync(clientBuildPath)) {
+  app.use(express.static(clientBuildPath, { index: false }));
+  app.get('*', (_req, res) => {
+    res.sendFile(resolve(clientBuildPath, 'index.html'));
+  });
+}
+
 app.use(notFound);
 app.use(errorHandler);
 

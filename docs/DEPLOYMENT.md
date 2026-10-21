@@ -4,18 +4,19 @@ Use Node.js 20+, npm 10+, and MongoDB. Copy `server/.env.example` to `server/.en
 
 ## Render
 
-This repository includes `render.yaml` for the API web service. It runs from
-the `server` workspace with `npm install` and `npm start`, and Render generates
-the production `JWT_ACCESS_SECRET`. When creating or syncing the Blueprint,
-provide `MONGODB_URI` and `CLIENT_URL` in the Render Dashboard. `CLIENT_URL`
-must be the deployed frontend's origin (scheme and host only). The Blueprint
-uses a secure `SameSite=None` refresh cookie so browsers can restore sessions
-when the frontend and API are deployed on different sites. For an existing
-Render service not managed by this Blueprint, set `COOKIE_SECURE=true` and
-`COOKIE_SAME_SITE=none` in its Environment settings. The MongoDB
-Atlas network access list must allow outbound connections from the Render
-service. Missing production settings now stop startup with a field-specific
-configuration error rather than leaving the API half configured.
+This repository includes `render.yaml` for a single-origin web service. Render
+builds the React client and starts Express, which serves both the API and the
+client from the same host. This is important for refresh sessions: the browser
+uses a first-party cookie instead of relying on cross-site cookie support.
+Render generates the production `JWT_ACCESS_SECRET`. When creating or syncing
+the Blueprint, provide `MONGODB_URI` and set `CLIENT_URL` to the deployed
+service's exact origin (scheme and host only). For existing split frontend/API
+deployments, configure the frontend to use the API URL and retain the secure
+`SameSite=None` refresh cookie settings; browser privacy settings can still
+block third-party cookies. The MongoDB Atlas network access list must allow
+outbound connections from the Render service. Missing production settings stop
+startup with a field-specific configuration error rather than leaving the API
+half configured.
 
 Run `npm install` and `npm run dev`. Build the client with `npm run build`. The API runs with `npm start -w server`; health is available at `/api/v1/health`. Configure the host with the same environment values and network access to MongoDB.
 
