@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { authService } from '../features/auth/auth.service.js';
 import { setAccessToken } from '../services/api.js';
 
@@ -7,6 +7,7 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [sessionError, setSessionError] = useState(false);
   const [theme, setTheme] = useState(
     () => localStorage.getItem('lifeledger_theme') || 'light',
   );
@@ -16,18 +17,30 @@ export function AuthProvider({ children }) {
     localStorage.setItem('lifeledger_theme', theme);
   }, [theme]);
 
-  useEffect(() => {
-    authService
+  const restoreSession = useCallback(() => {
+    setLoading(true);
+    setSessionError(false);
+    return authService
       .restoreSession()
       .then((session) => setUser(session.user))
-      .catch(() => setAccessToken(null))
+      .catch((error) => {
+        setAccessToken(null);
+        setSessionError(true);
+        throw error;
+      })
       .finally(() => setLoading(false));
   }, []);
+
+  useEffect(() => {
+    restoreSession().catch(() => {});
+  }, [restoreSession]);
 
   const value = useMemo(
     () => ({
       user,
       loading,
+      sessionError,
+      retrySessionRestore: restoreSession,
       theme,
       toggleTheme() {
         setTheme((current) => (current === 'light' ? 'dark' : 'light'));
@@ -54,7 +67,7 @@ export function AuthProvider({ children }) {
         }
       },
     }),
-    [user, loading, theme],
+    [user, loading, sessionError, theme, restoreSession],
   );
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }

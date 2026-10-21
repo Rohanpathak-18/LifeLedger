@@ -19,12 +19,24 @@ const DocumentsPage = lazy(() => import('../features/documents/pages/DocumentsPa
 const AssetsPage = lazy(() => import('../features/assets/AssetsPage.jsx'));
 
 export default function App() {
-  const { user, loading } = useAuth();
+  const { user, loading, sessionError, retrySessionRestore } = useAuth();
 
   if (loading) {
     return (
       <main className="session-loading" role="status" aria-live="polite">
         Restoring your LifeLedger session…
+      </main>
+    );
+  }
+
+  if (sessionError) {
+    return (
+      <main className="session-loading" role="alert">
+        <h1>We couldn’t restore your session.</h1>
+        <p>Check your connection and try again. Your account data is still safe.</p>
+        <button className="primary-button" onClick={() => retrySessionRestore().catch(() => {})}>
+          Try again
+        </button>
       </main>
     );
   }

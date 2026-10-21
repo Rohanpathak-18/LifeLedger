@@ -3,13 +3,17 @@ import * as authService from './auth.service.js';
 import { success } from '../../utils/responses.js';
 import { env } from '../../config/env.js';
 
-const cookieOptions = () => ({
-  httpOnly: true,
-  secure: env.COOKIE_SECURE,
-  sameSite: env.COOKIE_SAME_SITE,
-  path: '/api/v1/auth',
-  maxAge: env.REFRESH_TOKEN_TTL_DAYS * 86400000,
-});
+const cookieOptions = () => {
+  const production = env.NODE_ENV === 'production';
+  return {
+    httpOnly: true,
+    secure: production || env.COOKIE_SECURE,
+    sameSite: production ? 'none' : env.COOKIE_SAME_SITE,
+    ...(production ? { partitioned: true } : {}),
+    path: '/api/v1/auth',
+    maxAge: env.REFRESH_TOKEN_TTL_DAYS * 86400000,
+  };
+};
 
 function sendSession(res, session) {
   res.cookie('ll_refresh', session.refreshToken, cookieOptions());
