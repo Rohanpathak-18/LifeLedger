@@ -5,11 +5,13 @@ export const documentService = {
     const { data } = await api.get('/documents');
     return data.data.documents;
   },
-  async upload({ file, type, productId }) {
+  async upload({ file, type, productId, extractedText, extractedData }) {
     const body = new FormData();
     body.append('file', file);
     body.append('type', type);
     if (productId) body.append('productId', productId);
+    body.append('extractedText', extractedText || '');
+    body.append('extractedData', JSON.stringify(extractedData || {}));
     const { data } = await api.post('/documents', body, {
       headers: { 'Content-Type': 'multipart/form-data' },
     });

@@ -45,6 +45,19 @@ export default function NotificationsPage() {
       setItems(result.items);
       setUnreadCount(result.unreadCount);
       setEmailAlertsConfigured(result.emailAlertsConfigured);
+      if (result.unreadCount > 0) {
+        try {
+          await notificationService.markAllRead();
+          const readAt = new Date().toISOString();
+          setItems((current) =>
+            current.map((item) => ({ ...item, readAt: item.readAt || readAt })),
+          );
+          setUnreadCount(0);
+          window.dispatchEvent(new Event('lifeledger:notifications-updated'));
+        } catch {
+          // Leave notifications unread if the server could not save the change.
+        }
+      }
     } catch (requestError) {
       setError(
         requestError.response?.data?.error?.message ||
@@ -69,6 +82,7 @@ export default function NotificationsPage() {
         })),
       );
       setUnreadCount(0);
+      window.dispatchEvent(new Event('lifeledger:notifications-updated'));
       toast.success('You are all caught up.');
     } catch (requestError) {
       toast.error(
@@ -90,6 +104,7 @@ export default function NotificationsPage() {
           ),
         );
         setUnreadCount((count) => Math.max(0, count - 1));
+        window.dispatchEvent(new Event('lifeledger:notifications-updated'));
       } catch {
         // Keep navigation available even if marking read fails.
       }

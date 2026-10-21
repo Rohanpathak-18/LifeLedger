@@ -7,9 +7,13 @@ import {
   Pencil,
   ShieldCheck,
   Trash2,
+  UsersRound,
+  FileText,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import QrLabel from '../components/QrLabel.jsx';
 import { productService } from '../services/product.service.js';
+import { documentService } from '../../documents/document.service.js';
 
 function formatDate(value) {
   return value
@@ -37,6 +41,7 @@ export default function ProductDetailPage() {
   const { productId } = useParams();
   const navigate = useNavigate();
   const [record, setRecord] = useState(null);
+  const [documents, setDocuments] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
@@ -49,6 +54,10 @@ export default function ProductDetailPage() {
             'Could not load this item.',
         ),
       );
+    documentService
+      .list()
+      .then((rows) => setDocuments(rows.filter((doc) => String(doc.productId?._id) === productId)))
+      .catch(() => setDocuments([]));
   }, [productId]);
 
   async function archive() {
@@ -106,6 +115,15 @@ export default function ProductDetailPage() {
     ['Serial number', product.serialNumber],
     ['Purchased', formatDate(product.purchaseDate)],
     ['Price', formatMoney(product.purchasePrice, product.currency)],
+    [
+      'Estimated current value',
+      formatMoney(product.currentValue, product.currency),
+    ],
+    [
+      'Replacement cost',
+      formatMoney(product.replacementCost, product.currency),
+    ],
+    ['Location', product.location],
     ['Seller', product.seller],
   ];
 
@@ -121,17 +139,19 @@ export default function ProductDetailPage() {
           <p>{[product.brand, product.model].filter(Boolean).join(' · ')}</p>
         </div>
         <div className="detail-actions">
-          <Link to={`/products/${productId}/edit`} className="secondary-button">
+          {record.accessRole !== 'viewer' && <Link to={`/products/${productId}/edit`} className="secondary-button">
             <Pencil size={15} /> Edit
-          </Link>
-          <button className="secondary-button" onClick={archive}>
+          </Link>}
+          {record.accessRole === 'owner' && <button className="secondary-button" onClick={archive}>
             <Archive size={15} /> Archive
-          </button>
-          <button className="secondary-button danger-action" onClick={remove}>
+          </button>}
+          {record.accessRole === 'owner' && <button className="secondary-button danger-action" onClick={remove}>
             <Trash2 size={15} /> Delete
-          </button>
+          </button>}
+          {record.accessRole === 'owner' && <Link className="secondary-button" to={`/family?productId=${productId}`}><UsersRound size={15}/> Share</Link>}
         </div>
       </div>
+      <QrLabel productId={productId} productName={product.name} />
       <section className="detail-panel">
         <h2>Purchase details</h2>
         <dl className="detail-grid">
@@ -149,15 +169,16 @@ export default function ProductDetailPage() {
           </div>
         )}
       </section>
+      <section className="detail-panel"><div className="section-heading"><div><span className="section-kicker">RECEIPTS AND RECORDS</span><h2>Documents</h2></div><Link to="/documents" className="text-link">All documents <FileText size={14}/></Link></div>{documents.length ? <div className="detail-warranty-list">{documents.map((doc) => <div className="detail-warranty" key={doc._id}><FileText size={17}/><div><strong>{doc.originalFilename}</strong><span>{doc.type.replace('_', ' ')}</span></div><button className="secondary-button" onClick={() => documentService.download(doc._id, doc.originalFilename).catch(() => toast.error('Could not download this file.'))}>Download</button></div>)}</div> : <p className="muted-copy">No documents are linked to this item yet.</p>}</section>
       <section className="detail-panel">
         <div className="section-heading">
           <div>
             <span className="section-kicker">COVERAGE YOU HAVE ON RECORD</span>
             <h2>Warranties</h2>
           </div>
-          <Link to={`/warranties?productId=${productId}`} className="text-link">
+          {record.accessRole === 'owner' && <Link to={`/warranties?productId=${productId}`} className="text-link">
             <ShieldCheck size={14} /> Add warranty
-          </Link>
+          </Link>}
         </div>
         {warranties.length ? (
           <div className="detail-warranty-list">

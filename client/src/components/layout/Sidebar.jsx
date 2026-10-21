@@ -12,6 +12,9 @@ import {
   Sun,
   Wrench,
   X,
+  History,
+  ChartNoAxesColumnIncreasing,
+  UsersRound,
 } from 'lucide-react';
 
 const links = [
@@ -20,6 +23,9 @@ const links = [
   { label: 'Documents', to: '/documents', icon: FileText },
   { label: 'Warranties', to: '/warranties', icon: ShieldCheck },
   { label: 'Care & repairs', to: '/care', icon: Wrench },
+  { label: 'Life timeline', to: '/timeline', icon: History },
+  { label: 'Asset values', to: '/assets', icon: ChartNoAxesColumnIncreasing },
+  { label: 'Family ledger', to: '/family', icon: UsersRound },
   { label: 'Notifications', to: '/notifications', icon: Bell },
 ];
 

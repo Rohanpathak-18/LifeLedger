@@ -21,6 +21,9 @@ const defaults = {
   category: 'Electronics',
   purchaseDate: '',
   purchasePrice: '',
+  currentValue: '',
+  replacementCost: '',
+  location: '',
   currency: 'USD',
   seller: '',
   notes: '',
@@ -112,6 +115,17 @@ export default function ProductForm({
       </div>
       <label className="form-wide">
         Seller <input {...register('seller')} placeholder="Store or seller" />
+      </label>
+      <label>
+        Estimated current value{' '}
+        <input type="number" min="0" step="0.01" {...register('currentValue')} placeholder="Optional" />
+      </label>
+      <label>
+        Replacement cost{' '}
+        <input type="number" min="0" step="0.01" {...register('replacementCost')} placeholder="Optional" />
+      </label>
+      <label className="form-wide">
+        Where it lives <input {...register('location')} placeholder="e.g. Hall closet, top shelf" />
       </label>
       <label className="form-wide">
         Notes{' '}

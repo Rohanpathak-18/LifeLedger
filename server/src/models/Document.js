@@ -27,6 +27,14 @@ const documentSchema = new mongoose.Schema(
     },
     sizeBytes: { type: Number, required: true, min: 1 },
     storageKey: { type: String, required: true, unique: true, select: false },
+    extractedText: { type: String, maxlength: 20000, default: '' },
+    extractedData: {
+      productName: { type: String, maxlength: 120, default: '' },
+      purchaseDate: { type: Date, default: null },
+      purchasePrice: { type: Number, min: 0, default: null },
+      currency: { type: String, maxlength: 3, default: '' },
+      warrantyPeriod: { type: String, maxlength: 60, default: '' },
+    },
   },
   { timestamps: true },
 );

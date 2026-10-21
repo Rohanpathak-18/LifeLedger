@@ -29,6 +29,10 @@ const productSchema = new mongoose.Schema(
     },
     purchaseDate: { type: Date, default: null },
     purchasePrice: { type: Number, min: 0, default: null },
+    currentValue: { type: Number, min: 0, default: null },
+    replacementCost: { type: Number, min: 0, default: null },
+    valueHistory: [{ value: { type: Number, min: 0, required: true }, recordedAt: { type: Date, default: Date.now } }],
+    location: { type: String, trim: true, maxlength: 160, default: '' },
     currency: {
       type: String,
       uppercase: true,

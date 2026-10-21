@@ -16,7 +16,12 @@ export async function create(req, res) {
       'The file content does not match a supported document type',
     );
   }
-  const metadata = documentMetadataSchema.parse(req.body);
+  const body = { ...req.body };
+  if (typeof body.extractedData === 'string') {
+    try { body.extractedData = JSON.parse(body.extractedData); }
+    catch { throw new AppError(400, 'INVALID_OCR_DATA', 'Review the extracted document details and try again'); }
+  }
+  const metadata = documentMetadataSchema.parse(body);
   const document = await documentService.create(
     req.user.id,
     { ...req.file, detectedMimeType: mimeType },

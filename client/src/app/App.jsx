@@ -1,3 +1,4 @@
+import { lazy, Suspense } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import AppLayout from '../components/layout/AppLayout.jsx';
 import AuthPage from '../features/auth/pages/AuthPage.jsx';
@@ -6,11 +7,15 @@ import CollectionPage from '../features/products/pages/CollectionPage.jsx';
 import ProductFormPage from '../features/products/pages/ProductFormPage.jsx';
 import ProductDetailPage from '../features/products/pages/ProductDetailPage.jsx';
 import WarrantyPage from '../features/warranties/pages/WarrantyPage.jsx';
-import DocumentsPage from '../features/documents/pages/DocumentsPage.jsx';
 import CarePage from '../features/care/pages/CarePage.jsx';
 import NotificationsPage from '../features/notifications/pages/NotificationsPage.jsx';
 import LandingPage from '../features/landing/pages/LandingPage.jsx';
+import TimelinePage from '../features/timeline/TimelinePage.jsx';
+import FamilyPage from '../features/family/FamilyPage.jsx';
 import { useAuth } from './providers.jsx';
+
+const DocumentsPage = lazy(() => import('../features/documents/pages/DocumentsPage.jsx'));
+const AssetsPage = lazy(() => import('../features/assets/AssetsPage.jsx'));
 
 export default function App() {
   const { user } = useAuth();
@@ -27,9 +32,12 @@ export default function App() {
         <Route path="/products/:productId/edit" element={<ProductFormPage />} />
         <Route path="/products/:productId" element={<ProductDetailPage />} />
         <Route path="/warranties" element={<WarrantyPage />} />
-        <Route path="/documents" element={<DocumentsPage />} />
+        <Route path="/documents" element={<Suspense fallback={<main className="main-content"><p>Opening your documents…</p></main>}><DocumentsPage /></Suspense>} />
         <Route path="/care" element={<CarePage />} />
         <Route path="/notifications" element={<NotificationsPage />} />
+        <Route path="/timeline" element={<TimelinePage />} />
+        <Route path="/assets" element={<Suspense fallback={<main className="main-content"><p>Opening your asset register…</p></main>}><AssetsPage /></Suspense>} />
+        <Route path="/family" element={<FamilyPage />} />
       </Route>
       <Route
         path="*"

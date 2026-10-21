@@ -7,6 +7,7 @@ import Document from '../../models/Document.js';
 import Product from '../../models/Product.js';
 import { AppError } from '../../utils/responses.js';
 import { recordActivity } from '../notifications/notification.service.js';
+import ShareGrant from '../../models/ShareGrant.js';
 
 const uploadDirectory = fileURLToPath(
   new URL('../../../uploads/', import.meta.url),
@@ -25,10 +26,16 @@ function safeFilename(value) {
 }
 
 export async function list(userId) {
-  return Document.find({ userId })
-    .populate({ path: 'productId', match: { userId }, select: 'name' })
+  const grants = await ShareGrant.find({ recipientId: userId, revokedAt: null }).select('productId').lean();
+  const sharedIds = await Product.find({ _id: { $in: grants.map((grant) => grant.productId) }, archivedAt: null }).distinct('_id');
+  const documents = await Document.find({ $or: [{ userId }, { productId: { $in: sharedIds } }] })
+    .populate({ path: 'productId', select: 'name' })
     .sort({ createdAt: -1 })
     .lean();
+  return documents.map((doc) => {
+    const { userId: ownerId, ...safeDocument } = doc;
+    return { ...safeDocument, canDelete: String(ownerId) === String(userId) };
+  });
 }
 
 export async function create(userId, file, metadata) {
@@ -45,6 +52,9 @@ export async function create(userId, file, metadata) {
   }
 
   const type = file.detectedMimeType;
+  const extractedData = { ...metadata.extractedData };
+  if (extractedData.purchaseDate) extractedData.purchaseDate = new Date(`${extractedData.purchaseDate}T00:00:00.000Z`);
+  if (extractedData.purchasePrice === '') extractedData.purchasePrice = null;
   const extension =
     type === 'image/jpeg' ? '.jpg' : type === 'image/png' ? '.png' : '.pdf';
   const storageKey = `${randomUUID()}${extension}`;
@@ -61,6 +71,8 @@ export async function create(userId, file, metadata) {
       mimeType: type,
       sizeBytes: file.size,
       storageKey,
+      extractedText: metadata.extractedText || '',
+      extractedData,
     });
     await recordActivity(userId, {
       entity: 'document',
@@ -86,7 +98,11 @@ async function ownedDocument(userId, id) {
 }
 
 export async function download(userId, id) {
-  const document = await ownedDocument(userId, id);
+  if (!mongoose.isValidObjectId(id)) throw new AppError(404, 'NOT_FOUND', 'Document not found');
+  const sharedProductIds = await ShareGrant.find({ recipientId: userId, revokedAt: null }).distinct('productId');
+  const document = await Document.findOne({ _id: id, $or: [{ userId }, { productId: { $in: sharedProductIds } }] }).select('+storageKey');
+  if (!document) throw new AppError(404, 'NOT_FOUND', 'Document not found');
+  if (String(document.userId) !== String(userId) && !(await Product.exists({ _id: document.productId, archivedAt: null }))) throw new AppError(404, 'NOT_FOUND', 'Document not found');
   try {
     return {
       document,

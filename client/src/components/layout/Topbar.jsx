@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { Bell, LogOut, MoreHorizontal, Moon, Search, Sun } from 'lucide-react';
-import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../app/providers.jsx';
 import { notificationService } from '../../features/notifications/notification.service.js';
 
@@ -10,11 +10,15 @@ const links = [
   { label: 'Documents', to: '/documents' },
   { label: 'Warranties', to: '/warranties' },
   { label: 'Care', to: '/care' },
+  { label: 'Timeline', to: '/timeline' },
+  { label: 'Asset values', to: '/assets' },
+  { label: 'Family', to: '/family' },
 ];
 
 export default function Topbar({ onMenu }) {
   const { theme, toggleTheme, signOut } = useAuth();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
   const [unreadCount, setUnreadCount] = useState(0);
 
   const loadUnreadCount = useCallback(async () => {
@@ -34,6 +38,12 @@ export default function Topbar({ onMenu }) {
       window.clearInterval(interval);
       window.removeEventListener('focus', loadUnreadCount);
     };
+  }, [loadUnreadCount, pathname]);
+
+  useEffect(() => {
+    window.addEventListener('lifeledger:notifications-updated', loadUnreadCount);
+    return () =>
+      window.removeEventListener('lifeledger:notifications-updated', loadUnreadCount);
   }, [loadUnreadCount]);
 
   async function handleSignOut() {

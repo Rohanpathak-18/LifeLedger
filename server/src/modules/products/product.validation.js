@@ -15,6 +15,9 @@ export const productSchema = z.object({
   purchasePrice: z
     .union([z.literal(''), z.null(), z.coerce.number().min(0)])
     .optional(),
+  currentValue: z.union([z.literal(''), z.null(), z.coerce.number().min(0)]).optional(),
+  replacementCost: z.union([z.literal(''), z.null(), z.coerce.number().min(0)]).optional(),
+  location: z.string().trim().max(160).optional().default(''),
   currency: z.string().trim().length(3).optional().default('USD'),
   seller: z.string().trim().max(120).optional().default(''),
   notes: z.string().trim().max(3000).optional().default(''),

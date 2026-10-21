@@ -15,6 +15,9 @@ import documentRoutes from './modules/documents/document.routes.js';
 import careRoutes from './modules/care/care.routes.js';
 import notificationRoutes from './modules/notifications/notification.routes.js';
 import contactRoutes from './modules/contact/contact.routes.js';
+import timelineRoutes from './modules/timeline/timeline.routes.js';
+import assetRoutes from './modules/assets/assets.routes.js';
+import shareRoutes from './modules/shares/share.routes.js';
 
 const app = express();
 
@@ -45,6 +48,9 @@ app.use('/api/v1/documents', documentRoutes);
 app.use('/api/v1/care', careRoutes);
 app.use('/api/v1/notifications', notificationRoutes);
 app.use('/api/v1/contact', contactRoutes);
+app.use('/api/v1/timeline', timelineRoutes);
+app.use('/api/v1/assets', assetRoutes);
+app.use('/api/v1/shares', shareRoutes);
 app.use(notFound);
 app.use(errorHandler);
 

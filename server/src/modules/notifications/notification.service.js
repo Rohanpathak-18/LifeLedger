@@ -11,6 +11,7 @@ const activityLabels = {
   warranty: 'Warranty',
   repair: 'Repair record',
   maintenance: 'Maintenance task',
+  share: 'Family access',
 };
 
 const actionLabels = {
@@ -18,6 +19,7 @@ const actionLabels = {
   updated: 'updated',
   deleted: 'removed',
   archived: 'archived',
+  revoked: 'revoked',
 };
 
 export async function recordActivity(userId, { entity, action, name, href }) {

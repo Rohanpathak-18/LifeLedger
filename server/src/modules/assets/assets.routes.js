@@ -1,0 +1,10 @@
+import { Router } from 'express';
+import { asyncHandler } from '../../middleware/asyncHandler.js';
+import { requireAuth } from '../../middleware/requireAuth.js';
+import { requireDatabase } from '../../middleware/requireDatabase.js';
+import * as controller from './assets.controller.js';
+const router = Router();
+router.use(requireDatabase, requireAuth);
+router.get('/', asyncHandler(controller.summary));
+router.get('/export', asyncHandler(controller.exportCsv));
+export default router;
