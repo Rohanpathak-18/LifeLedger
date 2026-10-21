@@ -1408,6 +1408,76 @@ html[data-theme='dark'] .detail-warranty {
   }
 }
 
+/* Personal profile */
+.profile-hero {
+  display: flex;
+  align-items: center;
+  gap: 17px;
+  margin-top: 18px;
+  padding: 21px;
+  border: 1px solid #e5e2d8;
+  border-radius: 4px;
+  background: #faf9f5;
+}
+.profile-avatar-large {
+  display: grid;
+  width: 61px;
+  height: 61px;
+  flex: 0 0 61px;
+  place-items: center;
+  border: 1px solid #d3c5a7;
+  border-radius: 50%;
+  background: #eee8d9;
+  color: #766344;
+  font: 500 21px var(--serif);
+}
+.profile-hero-copy { min-width: 0; flex: 1; }
+.profile-hero-copy h2 { margin: 4px 0 2px; font: 500 25px var(--serif); }
+.profile-hero-copy p { margin: 0; color: #89857c; font-size: 10px; overflow-wrap: anywhere; }
+.profile-active { display: inline-flex; align-items: center; gap: 7px; color: #58735e; font-size: 9px; white-space: nowrap; }
+.profile-active i { width: 7px; height: 7px; border-radius: 50%; background: #72917a; }
+.profile-content-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(260px, .85fr); gap: 15px; margin-top: 15px; align-items: start; }
+.profile-content-grid .form-panel,
+.profile-content-grid .detail-panel { margin-top: 0; min-width: 0; }
+.profile-section-heading { display: flex; align-items: center; gap: 10px; margin-bottom: 17px; }
+.profile-section-heading h2 { margin: 0; color: #34332d; font: 500 20px var(--serif); }
+.profile-section-heading p { margin: 3px 0 0; color: #89857c; font-size: 9px; line-height: 1.5; }
+.profile-form { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+.profile-form input[readonly] { color: #77746b; background: #f1efe8; }
+.profile-form .form-actions { justify-content: flex-start; }
+.profile-meta-row { display: flex; align-items: center; gap: 11px; padding: 13px 0; border-bottom: 1px solid #eeece5; color: #8c7858; }
+.profile-meta-row > span { display: grid; gap: 4px; }
+.profile-meta-row small { color: #89857c; font-size: 7px; letter-spacing: .8px; }
+.profile-meta-row strong { color: #39372f; font-size: 10px; font-weight: 600; }
+.profile-theme-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-top: 14px; }
+.profile-theme-row > span { display: flex; align-items: center; gap: 9px; color: #8c7858; }
+.profile-theme-row strong { color: #39372f; font-size: 9px; font-weight: 600; }
+.profile-theme-row .secondary-button { min-height: 32px; }
+.profile-signout-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-top: 13px; padding-top: 13px; border-top: 1px solid #eeece5; }
+.profile-signout-row > span { color: #89857c; font-size: 8px; line-height: 1.5; }
+.profile-signout-row .secondary-button { min-height: 32px; gap: 6px; }
+html[data-theme='dark'] .profile-hero,
+html[data-theme='dark'] .profile-content-grid .form-panel,
+html[data-theme='dark'] .profile-content-grid .detail-panel { border-color: #3d3b34; background: #272621; color: #e7e2d7; }
+html[data-theme='dark'] .profile-avatar-large { border-color: #5b513f; background: #383328; color: #d6c193; }
+html[data-theme='dark'] .profile-hero-copy p,
+html[data-theme='dark'] .profile-section-heading p,
+html[data-theme='dark'] .profile-meta-row small { color: #aaa59a; }
+html[data-theme='dark'] .profile-section-heading h2,
+html[data-theme='dark'] .profile-meta-row strong,
+html[data-theme='dark'] .profile-theme-row strong { color: #e7e2d7; }
+html[data-theme='dark'] .profile-meta-row { border-color: #3d3b34; }
+html[data-theme='dark'] .profile-form input[readonly] { border-color: #48453d; background: #302e28; color: #bdb6a8; }
+html[data-theme='dark'] .profile-signout-row { border-color: #3d3b34; }
+html[data-theme='dark'] .profile-signout-row > span { color: #aaa59a; }
+@media (max-width: 700px) {
+  .profile-hero { align-items: flex-start; flex-wrap: wrap; padding: 16px; gap: 12px; }
+  .profile-avatar-large { width: 51px; height: 51px; flex-basis: 51px; }
+  .profile-hero-copy h2 { font-size: 21px; }
+  .profile-active { width: 100%; margin-left: 63px; }
+  .profile-content-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
 .product-card-link:focus-visible,
 .nav-link:focus-visible,
 .primary-button:focus-visible,

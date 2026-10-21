@@ -1,4 +1,4 @@
-import { registerSchema, loginSchema } from './auth.validation.js';
+import { registerSchema, loginSchema, profileSchema } from './auth.validation.js';
 import * as authService from './auth.service.js';
 import { success } from '../../utils/responses.js';
 import { env } from '../../config/env.js';
@@ -61,4 +61,9 @@ export async function logout(req, res) {
 
 export function me(req, res) {
   return success(res, { user: req.user });
+}
+
+export async function updateProfile(req, res) {
+  const input = profileSchema.parse(req.body);
+  return success(res, { user: await authService.updateProfile(req.user.id, input) });
 }

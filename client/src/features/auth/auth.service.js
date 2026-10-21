@@ -37,4 +37,8 @@ export const authService = {
     const { data } = await api.get('/auth/me');
     return data.data.user;
   },
+  async updateProfile(details) {
+    const { data } = await api.patch('/auth/profile', details);
+    return data.data.user;
+  },
 };

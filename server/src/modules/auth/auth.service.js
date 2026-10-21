@@ -12,6 +12,7 @@ const publicUser = (user) => ({
   name: user.name,
   email: user.email,
   emailVerifiedAt: user.emailVerifiedAt,
+  createdAt: user.createdAt,
 });
 const accessToken = (user) =>
   jwt.sign({ sub: user.id }, env.JWT_ACCESS_SECRET, {
@@ -131,4 +132,14 @@ export async function authenticate(header) {
   } catch {
     throw new AppError(401, 'UNAUTHENTICATED', 'Your session has expired');
   }
+}
+
+export async function updateProfile(userId, input) {
+  const user = await User.findByIdAndUpdate(
+    userId,
+    { $set: { name: input.name } },
+    { new: true, runValidators: true },
+  );
+  if (!user) throw new AppError(404, 'NOT_FOUND', 'Account not found');
+  return publicUser(user);
 }

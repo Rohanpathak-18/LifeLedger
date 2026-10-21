@@ -40,6 +40,11 @@ export function AuthProvider({ children }) {
         const session = await authService.register(details);
         setUser(session.user);
       },
+      async updateProfile(details) {
+        const updatedUser = await authService.updateProfile(details);
+        setUser(updatedUser);
+        return updatedUser;
+      },
       async signOut() {
         try {
           await authService.logout();

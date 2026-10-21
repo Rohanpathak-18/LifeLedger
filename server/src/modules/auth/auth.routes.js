@@ -62,5 +62,12 @@ router.get(
   requireAuth,
   asyncHandler(authController.me),
 );
+router.patch(
+  '/profile',
+  requireSameOrigin,
+  requireDatabase,
+  requireAuth,
+  asyncHandler(authController.updateProfile),
+);
 
 export default router;

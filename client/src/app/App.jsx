@@ -12,6 +12,7 @@ import NotificationsPage from '../features/notifications/pages/NotificationsPage
 import LandingPage from '../features/landing/pages/LandingPage.jsx';
 import TimelinePage from '../features/timeline/TimelinePage.jsx';
 import FamilyPage from '../features/family/FamilyPage.jsx';
+import ProfilePage from '../features/profile/ProfilePage.jsx';
 import { useAuth } from './providers.jsx';
 
 const DocumentsPage = lazy(() => import('../features/documents/pages/DocumentsPage.jsx'));
@@ -38,6 +39,7 @@ export default function App() {
         <Route path="/timeline" element={<TimelinePage />} />
         <Route path="/assets" element={<Suspense fallback={<main className="main-content"><p>Opening your asset register…</p></main>}><AssetsPage /></Suspense>} />
         <Route path="/family" element={<FamilyPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
       </Route>
       <Route
         path="*"

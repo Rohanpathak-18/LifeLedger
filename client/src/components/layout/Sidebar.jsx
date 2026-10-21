@@ -1,9 +1,9 @@
 import { NavLink } from 'react-router-dom';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../app/providers.jsx';
 import {
   Boxes,
-  ChevronDown,
+  ChevronRight,
   FileText,
   LayoutDashboard,
   Bell,
@@ -30,16 +30,7 @@ const links = [
 ];
 
 export default function Sidebar({ open, onClose }) {
-  const { signOut, theme, toggleTheme } = useAuth();
-  const navigate = useNavigate();
-
-  async function handleSignOut() {
-    try {
-      await signOut();
-    } finally {
-      navigate('/login');
-    }
-  }
+  const { user, theme, toggleTheme } = useAuth();
 
   return (
     <>
@@ -115,14 +106,14 @@ export default function Sidebar({ open, onClose }) {
               <p>Your collection is private and secure.</p>
             </div>
           </div>
-          <button className="profile" onClick={handleSignOut} title="Sign out">
-            <span className="avatar">L</span>
+          <Link to="/profile" className="profile" onClick={onClose} title="Your profile">
+            <span className="avatar">{user?.name?.trim()?.[0]?.toUpperCase() || 'L'}</span>
             <span className="profile-info">
-              <strong>Sign out</strong>
-              <small>Personal account</small>
+              <strong>{user?.name || 'Your profile'}</strong>
+              <small>{user?.email || 'Personal account'}</small>
             </span>
-            <ChevronDown size={16} />
-          </button>
+            <ChevronRight size={16} />
+          </Link>
         </div>
       </aside>
     </>

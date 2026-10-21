@@ -207,6 +207,7 @@ button {
   padding: 14px 2px 0;
   background: none;
   color: #f2f0e9;
+  text-decoration: none;
   display: flex;
   align-items: center;
   text-align: left;
@@ -214,6 +215,7 @@ button {
 }
 .profile-info {
   flex: 1;
+  min-width: 0;
 }
 .profile-info strong {
   font-size: 10px;
@@ -224,6 +226,9 @@ button {
   color: #a09d93;
   display: block;
   margin-top: 3px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .app-main {
   margin-left: 0;
