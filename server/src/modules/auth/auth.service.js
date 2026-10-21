@@ -110,6 +110,28 @@ export async function refresh(rawToken) {
   return issueSession(user);
 }
 
+// Restoring a browser tab should not consume the single-use refresh token.
+// Multiple tabs can load at once; rotation here made one successful restore
+// invalidate the cookie another tab was still using.
+export async function restore(rawToken) {
+  if (!rawToken) return null;
+
+  const session = await RefreshSession.findOne({
+    tokenHash: hashToken(rawToken),
+    revokedAt: null,
+    expiresAt: { $gt: new Date() },
+  });
+  if (!session) return null;
+
+  const user = await User.findById(session.userId);
+  if (!user) return null;
+
+  return {
+    accessToken: accessToken(user),
+    user: publicUser(user),
+  };
+}
+
 export async function logout(rawToken) {
   if (rawToken) {
     await RefreshSession.updateOne(

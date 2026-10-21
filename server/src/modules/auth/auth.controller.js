@@ -42,8 +42,11 @@ export async function restoreSession(req, res) {
   }
 
   try {
-    const session = await authService.refresh(req.cookies.ll_refresh);
-    res.cookie('ll_refresh', session.refreshToken, cookieOptions());
+    const session = await authService.restore(req.cookies.ll_refresh);
+    if (!session) {
+      res.clearCookie('ll_refresh', cookieOptions());
+      return success(res, { authenticated: false, user: null });
+    }
     return success(res, {
       authenticated: true,
       accessToken: session.accessToken,

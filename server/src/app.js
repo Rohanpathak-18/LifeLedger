@@ -64,6 +64,11 @@ const clientBuildPath = resolve(
   dirname(fileURLToPath(import.meta.url)),
   '../../client/dist',
 );
+if (env.NODE_ENV === 'production' && !existsSync(clientBuildPath)) {
+  throw new Error(
+    'Client build not found. Configure Render Root Directory as the repository root and build with "npm install && npm run build".',
+  );
+}
 if (existsSync(clientBuildPath)) {
   app.use(express.static(clientBuildPath, { index: false }));
   app.get('*', (_req, res) => {
