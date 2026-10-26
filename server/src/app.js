@@ -66,7 +66,7 @@ const clientBuildPath = resolve(
 );
 if (env.NODE_ENV === 'production' && !existsSync(clientBuildPath)) {
   throw new Error(
-    'Client build not found. Configure Render Root Directory as the repository root and build with "npm install && npm run build".',
+    'Client build not found. Build the client with "npm install && npm run build" before starting the server in production.',
   );
 }
 if (existsSync(clientBuildPath)) {

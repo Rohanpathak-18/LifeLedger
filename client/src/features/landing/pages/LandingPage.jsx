@@ -220,7 +220,6 @@ export function LandingContent({
             className="landing-hero-image"
             src={photos.architecture}
             alt="A sculptural, curved concrete staircase lit by soft daylight"
-            fetchPriority="high"
           />
           <div className="landing-hero-shade" />
           <div className="landing-hero-copy">
