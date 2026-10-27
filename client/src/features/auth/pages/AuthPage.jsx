@@ -49,7 +49,6 @@ export default function AuthPage({ mode }) {
   }
 
   return (
-    <div className="auth-layout">
     <main className="auth-page">
       <section className="auth-card">
         <Link to="/" className="auth-brand">
@@ -125,7 +124,5 @@ export default function AuthPage({ mode }) {
         </p>
       </section>
     </main>
-    <footer className="creator-credit">Built with love <span aria-label="love">❤️</span> by Rohan</footer>
-    </div>
   );
 }

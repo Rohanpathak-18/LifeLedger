@@ -3026,32 +3026,9 @@ html[data-theme='dark'] .landing-hero-copy > p {
   background: transparent;
 }
 
-.creator-credit {
-  padding: 14px 20px 18px;
-  color: #969187;
-  font-size: 11px;
-  text-align: center;
-}
-
-.auth-layout {
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-}
-
-.auth-layout .auth-page {
-  flex: 1;
-  min-height: 0;
-}
-
 .landing-creator-credit {
   grid-column: 1 / -1;
   text-align: center;
-}
-
-.landing-footer-bottom {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
 }
 
 html[data-theme='dark'] .app-main:has(.main-content) {
