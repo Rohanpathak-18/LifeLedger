@@ -12,6 +12,7 @@ export default function AppLayout() {
       <div className="app-main">
         <Topbar onMenu={() => setMenuOpen(true)} />
         <Outlet />
+        <footer className="creator-credit">Built with love <span aria-label="love">❤️</span> by Rohan</footer>
       </div>
     </div>
   );

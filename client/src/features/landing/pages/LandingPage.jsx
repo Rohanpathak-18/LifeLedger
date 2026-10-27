@@ -523,6 +523,7 @@ export function LandingContent({
           <span>
             Original LifeLedger illustrations
           </span>
+          <span className="landing-creator-credit">Built with love ❤️ by Rohan</span>
         </div>
       </footer>
     </>

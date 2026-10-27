@@ -2,6 +2,18 @@
 
 Use Node.js 20+, npm 10+, and MongoDB. Copy `server/.env.example` to `server/.env`; set a MongoDB URI and a unique 32+ character JWT secret. Set `COOKIE_SECURE=true` behind HTTPS and set `CLIENT_URL` to the exact frontend origin. `VITE_API_BASE_URL` is public client configuration, never a secret.
 
+## Recommended Render setup: one origin
+
+The API service can serve the built client, keeping the UI and refresh cookie on
+the same origin. In the Render web service for this repository, use the
+repository root as the service root, set the build command to
+`npm ci && npm run build`, and set the start command to `npm start -w server`.
+Set `VITE_API_BASE_URL=/api/v1` in that service's build environment so the
+client calls the API on its own origin. Set `CLIENT_URL` to the API service's
+public URL (for example, `https://lifeledger-3tvt.onrender.com`). Then deploy
+that service and use its URL for the website. This avoids cross-site cookie
+restrictions in browsers.
+
 ## Separate Render services
 
 When the frontend and API are deployed as separate Render services, set the
@@ -19,8 +31,9 @@ browser can send them from a separately hosted frontend to the API. Set
 policy; `SameSite=None` requires `COOKIE_SECURE=true` (already enforced in
 production).
 
-For this repository's single-origin setup, keep `VITE_API_BASE_URL=/api/v1`;
-the Express service can serve the built frontend and API from one origin.
+The separate-service setup relies on cross-site cookies, which some browser
+privacy settings can block. Prefer the one-origin setup above when session
+restoration does not work reliably across browsers.
 
 ## Local development
 
