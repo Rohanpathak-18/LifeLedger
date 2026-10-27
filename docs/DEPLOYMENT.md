@@ -2,6 +2,20 @@
 
 Use Node.js 20+, npm 10+, and MongoDB. Copy `server/.env.example` to `server/.env`; set a MongoDB URI and a unique 32+ character JWT secret. Set `COOKIE_SECURE=true` behind HTTPS and set `CLIENT_URL` to the exact frontend origin. `VITE_API_BASE_URL` is public client configuration, never a secret.
 
+## Separate Render services
+
+When the frontend and API are deployed as separate Render services, set the
+frontend service's `VITE_API_BASE_URL` to the API origin **including the API
+prefix**, for example `https://lifeledger-3tvt.onrender.com/api/v1`. This app
+already appends paths such as `/auth/login`, so omitting `/api/v1` causes API
+requests to return 404. Set the API service's `CLIENT_URL` to the frontend
+origin only, for example `https://lifeledger-web-4yx1.onrender.com` (no path).
+After changing a `VITE_` variable in Render, redeploy the frontend so Vite
+embeds the new value in its build.
+
+For this repository's single-origin setup, keep `VITE_API_BASE_URL=/api/v1`;
+the Express service can serve the built frontend and API from one origin.
+
 ## Local development
 
 Copy `server/.env.example` to `server/.env`, then configure `MONGODB_URI` and a
