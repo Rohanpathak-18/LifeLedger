@@ -523,9 +523,7 @@ export function LandingContent({
           <span>
             Original LifeLedger illustrations
           </span>
-          {authenticated && (
-            <span className="landing-creator-credit">Built with love ❤️ by Rohan</span>
-          )}
+          <span className="landing-creator-credit">Built with love ❤️ by Rohan</span>
         </div>
       </footer>
     </>
