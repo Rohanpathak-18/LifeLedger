@@ -13,6 +13,12 @@ origin only, for example `https://lifeledger-web-4yx1.onrender.com` (no path).
 After changing a `VITE_` variable in Render, redeploy the frontend so Vite
 embeds the new value in its build.
 
+In production, refresh cookies default to `SameSite=None` and `Secure` so the
+browser can send them from a separately hosted frontend to the API. Set
+`COOKIE_SAME_SITE` explicitly only when your deployment needs a different
+policy; `SameSite=None` requires `COOKIE_SECURE=true` (already enforced in
+production).
+
 For this repository's single-origin setup, keep `VITE_API_BASE_URL=/api/v1`;
 the Express service can serve the built frontend and API from one origin.
 

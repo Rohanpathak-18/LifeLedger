@@ -22,7 +22,12 @@ const schema = z
       .enum(['true', 'false'])
       .default('false')
       .transform((value) => value === 'true'),
-    COOKIE_SAME_SITE: z.enum(['strict', 'lax', 'none']).default('lax'),
+    // Production may host the frontend and API on separate sites. In that
+    // setup the refresh cookie must be sent on credentialed cross-site API
+    // requests; local development remains same-site through the Vite proxy.
+    COOKIE_SAME_SITE: z
+      .enum(['strict', 'lax', 'none'])
+      .default(process.env.NODE_ENV === 'production' ? 'none' : 'lax'),
     RESEND_API_KEY: z.string().default(''),
     EMAIL_FROM: z.string().default(''),
     CONTACT_EMAIL: z.string().default(''),
@@ -65,7 +70,11 @@ const schema = z
       });
     }
 
-    if (value.COOKIE_SAME_SITE === 'none' && !value.COOKIE_SECURE) {
+    if (
+      value.COOKIE_SAME_SITE === 'none' &&
+      !value.COOKIE_SECURE &&
+      value.NODE_ENV !== 'production'
+    ) {
       context.addIssue({
         code: z.ZodIssueCode.custom,
         path: ['COOKIE_SECURE'],
